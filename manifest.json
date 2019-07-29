@@ -1,0 +1,23 @@
+{
+    "name": "Mister Reader",
+    "manifest_version": 2,
+    "version": "2.0",
+    "description": "Muestra Información adicional sobre playMister",
+    "icons": {
+       "16": "icon16.png",
+       "48": "icon48.png",
+       "128": "icon128.png"
+    },
+    "browser_action": {
+      "default_title": "Mister Reader",
+      "default_icon": "icon.png"
+    },
+    "content_scripts" : [{
+        "matches" : [ "https://mister.mundodeportivo.com/standings"],
+        "js" : ["misterScript.js"]
+    }],
+    "permissions": [
+        "declarativeWebRequest",
+        "*://*/*"
+      ]
+  }
