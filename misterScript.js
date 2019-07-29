@@ -30,33 +30,53 @@ if(liga === 'Trapis-League'){
         generales.push(individuo);
     });
 
+    jugadoresJornada.forEach(function(jugador){
+        let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
+        let jugados = (jugador.querySelector('.played').innerText).substr(0,2).trim();
+        let puntos = (jugador.querySelector('.points').innerText).substr(-30,2).trim();
+        let individuo = {'nombre':nombre, 'puntos': puntos, 'jugados': jugados};
+        jornaderos.push(individuo);
+    });
+
     grupos.forEach(function(grupo){
+        let name = "";
+            let points = 0;
+            let value = 0;
         grupo.forEach(function(miembro){
-            let equipo = {'nombre':'', 'puntos': 0, 'valor': 0};
             generales.forEach(function(tio){
                 if(tio.nombre === miembro){
-                    console.log(tio);
+                    name = name+tio.nombre;
+                    points = points+parseInt(tio.puntos);
+                    value = value+parseFloat(tio.valor.substr(0,6));
                 }
-            })
-        })
+            });
+        });
+        console.log({'nombre':name, 'puntos': points, 'valor': value});
+        imprimirGeneral.push({'nombre':name, 'puntos': points, 'valor': value});
         console.log("-----------");
     });
 
 
-    console.log("----------------------");
-    // jugadoresJornada.forEach(function(jugador){
-    //     let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
-    //     console.log(nombre);
-    //     let valorEquipo = 0;
-    //     let puntos = 0;
-    // });
+    grupos.forEach(function(grupo){
+        let name = "";    
+        let points = 0;
+        let played = 0;
+        grupo.forEach(function(miembro){
+            generales.forEach(function(tio){
+                if(tio.nombre === miembro){
+                    name = name+' - '+tio.nombre;
+                    points = points+parseInt(tio.puntos);
+                    played = played+parseInt(tio.jugados);
+                }
+            });
+        });
+        imprimirJornada.push({'nombre':name, 'puntos': points, 'jugados': played});
+        console.log("-----------");
+    });
+
+    
+console.log(imprimirJornada);
 }
-
-
-
-
-// NOTE: Do not insert unsafe variables in this way, see below
-// at "Dynamic values in the injected code"
 `;
 
 var script = document.createElement('script');
