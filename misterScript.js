@@ -1,6 +1,4 @@
-var actualCode = `// Code here.
-// If you want to use a variable, use $ and curly braces.
-// For example, to use a fixed random number:
+var actualCode = `
 let liga = document.querySelector(".league-name").innerText;
 if(liga === 'Trapis-League'){
     let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
@@ -16,12 +14,16 @@ if(liga === 'Trapis-League'){
     let jornada = document.querySelector('.panel-gameweek');
     let jugadoresJornada = jornada.querySelectorAll('.user-row');
     
+    //LISTAS CON LOS USUARIOS
     let generales = [];
     let jornaderos = [];
 
+    //LISTAS CON LOS GRUPOS
     let imprimirGeneral = [];
     let imprimirJornada = [];
 
+
+    //CREACION DE LOS OBJETOS DE CADA JUGADOR PARA GENERAL
     jugadoresGeneral.forEach(function(jugador){
         let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
         let valorEquipo = jugador.querySelector('.played').innerText;
@@ -30,6 +32,7 @@ if(liga === 'Trapis-League'){
         generales.push(individuo);
     });
 
+    //CREACION DE LOS OBJETOS DE CADA JUGADOR PARA JORNADA
     jugadoresJornada.forEach(function(jugador){
         let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
         let jugados = (jugador.querySelector('.played').innerText).substr(0,2).trim();
@@ -38,6 +41,7 @@ if(liga === 'Trapis-League'){
         jornaderos.push(individuo);
     });
 
+    //CREACION DE GRUPOS GENERALES
     grupos.forEach(function(grupo){
         let name = "";
             let points = 0;
@@ -45,24 +49,22 @@ if(liga === 'Trapis-League'){
         grupo.forEach(function(miembro){
             generales.forEach(function(tio){
                 if(tio.nombre === miembro){
-                    name = name+tio.nombre;
+                    name = name+' - '+tio.nombre;
                     points = points+parseInt(tio.puntos);
                     value = value+parseFloat(tio.valor.substr(0,6));
                 }
             });
         });
-        console.log({'nombre':name, 'puntos': points, 'valor': value});
-        imprimirGeneral.push({'nombre':name, 'puntos': points, 'valor': value});
-        console.log("-----------");
+        imprimirGeneral.push({'nombre':name.substr(3,100), 'puntos': points, 'valor': String(value.toFixed(3))+'.000'});
     });
 
-
+    //CREACION DE GRUPOS DE JORNADA
     grupos.forEach(function(grupo){
         let name = "";    
         let points = 0;
         let played = 0;
         grupo.forEach(function(miembro){
-            generales.forEach(function(tio){
+            jornaderos.forEach(function(tio){
                 if(tio.nombre === miembro){
                     name = name+' - '+tio.nombre;
                     points = points+parseInt(tio.puntos);
@@ -70,12 +72,38 @@ if(liga === 'Trapis-League'){
                 }
             });
         });
-        imprimirJornada.push({'nombre':name, 'puntos': points, 'jugados': played});
-        console.log("-----------");
+        imprimirJornada.push({'nombre':name.substr(3,100), 'puntos': points, 'jugados': String(played)+'/33 jugados'});
     });
 
+    //ORDENACION DE LAS LISTAS
+    imprimirGeneral.sort(function(a, b) {
+        return (a.puntos - b.puntos);
+    });
+
+    imprimirJornada.sort(function(a, b) {
+        return (a.puntos - b.puntos);
+    });
+
+    //ELIMINACION DE LOS DATOS REALES DE LA WEB
+    let ulG = document.querySelectorAll('.user-list')[0];
+    ulG.innerText = "";
+    let ulJ = document.querySelectorAll('.user-list')[1];
+    ulJ.innerText = "";
+
+
+    //INSERCION DE LOS DATOS POR GRUPOS
+    let count = 1;
+    imprimirGeneral.forEach(function(elemento){
+        general.innerHTML += '<li style="list-style:none; margin:10px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.valor+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
+        count +=1;
+    });
+
+    count = 1;
+    imprimirJornada.forEach(function(elemento){
+        jornada.innerHTML += '<li style="list-style:none; margin:10px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.jugados+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
+        count +=1;
+    });
     
-console.log(imprimirJornada);
 }
 `;
 

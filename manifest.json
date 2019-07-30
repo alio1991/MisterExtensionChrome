@@ -1,23 +1,19 @@
 {
-    "name": "Mister Reader",
+    "name": "Mister Groups",
     "manifest_version": 2,
     "version": "2.0",
-    "description": "Muestra Información adicional sobre playMister",
+    "description": "Muestra Información adicional sobre grupos en PlayMister, ",
     "icons": {
        "16": "icon16.png",
        "48": "icon48.png",
        "128": "icon128.png"
     },
     "browser_action": {
-      "default_title": "Mister Reader",
+      "default_title": "Mister Groups",
       "default_icon": "icon.png"
     },
     "content_scripts" : [{
         "matches" : [ "https://mister.mundodeportivo.com/standings"],
         "js" : ["misterScript.js"]
-    }],
-    "permissions": [
-        "declarativeWebRequest",
-        "*://*/*"
-      ]
+    }]
   }
