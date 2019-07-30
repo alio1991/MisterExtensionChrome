@@ -1,6 +1,12 @@
 var actualCode = `
-let liga = document.querySelector(".league-name").innerText;
-if(liga === 'Trapis-League'){
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//          CLASIFICATION VIEW             //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/standings'){
     let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
              'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK']
     let grupoA = ['Alio', 'javi c.', 'RauL']
@@ -105,6 +111,43 @@ if(liga === 'Trapis-League'){
     });
     
 }
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//                TEAM VIEW                //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+let suplentes = [];
+
+if(window.location.href === 'https://mister.mundodeportivo.com/team'){
+    let lista = document.querySelector('.player-list');
+    let jugadores = lista.querySelectorAll('li');
+
+    //SELECCIONAR Y GUARDAR EN suplentes LOS JUGADORES SUPLENTES
+    jugadores.forEach(function(jugador){
+        if(jugador.className !== '' && !jugador.className.includes('in-lineup')){
+            jugador.style.padding = '3px';
+            suplentes.push(jugador);
+        }
+    });
+
+    //IMPRIMIR LOS JUGADORES
+    let ubicacion = document.querySelector('.ad-sidebar');
+    ubicacion.innerText="";
+    ubicacion.style.listStyle = 'none';
+    ubicacion.style.marginTop = '10px';
+    ubicacion.style.padding = '3px';
+    ubicacion.style.heigth = 'fit-content';
+    ubicacion.style.transform = 'scale(0.8)';
+    let h2 = document.createElement('h2');
+    h2.innerText = 'SUPLENTES';
+    h2.style.padding = '5px';
+    ubicacion.appendChild(h2);
+    suplentes.forEach(function(suplente){
+        ubicacion.appendChild(suplente);
+    });
+}
+
 `;
 
 var script = document.createElement('script');

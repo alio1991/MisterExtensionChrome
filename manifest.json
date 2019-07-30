@@ -1,7 +1,7 @@
 {
     "name": "Mister Groups",
-    "manifest_version": 2,
-    "version": "2.0",
+    "manifest_version": 3,
+    "version": "3.0",
     "description": "Muestra Información adicional sobre grupos en PlayMister, ",
     "icons": {
        "16": "icon16.png",
@@ -13,7 +13,7 @@
       "default_icon": "icon.png"
     },
     "content_scripts" : [{
-        "matches" : [ "https://mister.mundodeportivo.com/standings"],
+        "matches" : [ "https://mister.mundodeportivo.com/*"],
         "js" : ["misterScript.js"]
     }]
   }
