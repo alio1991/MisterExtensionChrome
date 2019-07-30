@@ -147,7 +147,24 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
         ubicacion.appendChild(suplente);
     });
 }
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//                FEED VIEW                //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
 
+if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
+
+    let transacciones = []
+    let titulos = document.querySelectorAll('.title');
+    titulos.forEach(function(titulo){
+        if(titulo.innerText === 'Nuevas transacciones en el mercado'){
+            transacciones.push(titulo.parentNode.innerHTML);
+        }
+    });
+
+    console.log(transacciones);
+}
 `;
 
 var script = document.createElement('script');

@@ -1,6 +1,6 @@
 {
     "name": "Mister Groups",
-    "manifest_version": 3,
+    "manifest_version": 2,
     "version": "3.0",
     "description": "Muestra Información adicional sobre grupos en PlayMister, ",
     "icons": {
