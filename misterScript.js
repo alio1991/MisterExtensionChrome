@@ -153,17 +153,41 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
+let add = document.querySelector('.ad-content-feed');
 if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
+    
+    // let avanza = 0;
+    // let id = '#feed'+String(159021131);
+    // console.log('EOOOOOO:'+document.querySelector(id));
+    // while(document.querySelector(id) === null){
+    //     window.scrollTo(0, avanza);
+    //     // $(window).on("scroll", function() {
 
-    let transacciones = []
+    //     // });
+    //     avanza = avanza+500;
+    // }
+    // window.scrollTo(0, 0);
+
+    // console.log($(window).height());
+    // console.log($(document).height());
+    let transacciones = [];
     let titulos = document.querySelectorAll('.title');
     titulos.forEach(function(titulo){
         if(titulo.innerText === 'Nuevas transacciones en el mercado'){
-            transacciones.push(titulo.parentNode.innerHTML);
+            transacciones.push(titulo.parentNode.parentNode.querySelector('.player-list').querySelector('.title').innerText);
         }
     });
 
-    console.log(transacciones);
+    let churro = [];
+    let div = document.createElement('div');
+    add.innerHTML = "";
+
+    transacciones.forEach(function(elemento){
+        let p = document.createElement('p');
+        p.innerText = elemento;
+        div.appendChild(p);
+    });
+    add.appendChild(div);
 }
 `;
 
