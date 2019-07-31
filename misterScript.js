@@ -1,5 +1,30 @@
 var actualCode = `
 
+
+function replaceAll( text, busca, reemplaza ){
+    while (text.toString().indexOf(busca) != -1)
+        text = text.toString().replace(busca,reemplaza);
+    return text;
+}
+
+function conPuntos(cadena){
+    if(cadena.length < 3){
+        return cadena;
+    }
+    let long = cadena.length-1;
+    let res = '';
+    for(let i=long; i>=0; i--){
+        if(i == (long-6) && i[0] != '-' && cadena[long-6] != '-' ){
+            res = '.'+res;
+        }
+        if(i == (long-3)){
+            res = '.'+res;
+        }
+        res = cadena[i]+res;
+    }
+
+    return res;
+}
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 //          CLASIFICATION VIEW             //
@@ -156,38 +181,124 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
 let add = document.querySelector('.ad-content-feed');
 if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
     
-    // let avanza = 0;
-    // let id = '#feed'+String(159021131);
-    // console.log('EOOOOOO:'+document.querySelector(id));
-    // while(document.querySelector(id) === null){
-    //     window.scrollTo(0, avanza);
-    //     // $(window).on("scroll", function() {
+    let bajada = 0;
+    let bottom = document.querySelector('.slideout-panel');
+    //CREACION DE BOTON BAJAR
+    let top = document.querySelector('.ad-header-feed');
+    top.innerText = "";
 
-    //     // });
-    //     avanza = avanza+500;
-    // }
-    // window.scrollTo(0, 0);
+    let botonBajar = document.createElement('button');
+    botonBajar.innerText = '«';
+    botonBajar.setAttribute('class', 'btn-post');
+    botonBajar.setAttribute('onclick', 'bajar()');
+    botonBajar.style.marginRight = '70px';
 
-    // console.log($(window).height());
-    // console.log($(document).height());
-    let transacciones = [];
-    let titulos = document.querySelectorAll('.title');
-    titulos.forEach(function(titulo){
-        if(titulo.innerText === 'Nuevas transacciones en el mercado'){
-            transacciones.push(titulo.parentNode.parentNode.querySelector('.player-list').querySelector('.title').innerText);
-        }
-    });
+    bottom.appendChild(botonBajar);
 
-    let churro = [];
-    let div = document.createElement('div');
-    add.innerHTML = "";
+    //CREACION DE BOTON REVISAR
+    let botonImprimir = document.createElement('button');
+    botonImprimir.innerText = 'Mostrar Transacciones';
+    botonImprimir.setAttribute('onclick', 'revisar()');
 
-    transacciones.forEach(function(elemento){
-        let p = document.createElement('p');
-        p.innerText = elemento;
-        div.appendChild(p);
-    });
-    add.appendChild(div);
+    top.appendChild(botonImprimir);
+
+    //CREAR BOTON SUBIR
+    document.querySelector('.ui-add-big').remove();
+
+    let botonSubir = document.createElement('button');
+    botonSubir.innerText = '^';
+    botonSubir.setAttribute('onclick', 'subir()');
+    botonSubir.setAttribute('class', 'btn-post');
+    bottom.appendChild(botonSubir);
+    
+
+    function bajar(){
+        bajada += 5000;
+        window.scrollTo(0, bajada);
+    }
+
+    function subir(){
+        window.scrollTo(0, 0);
+    }
+
+    function revisar(){
+        //RECOPILA TRANSACCIONES
+        let transacciones = [];
+        let titulos = document.querySelectorAll('.title');
+        titulos.forEach(function(titulo){
+            if(titulo.innerText === 'Nuevas transacciones en el mercado'){
+                let fichajes = (titulo.parentNode.parentNode.querySelector('.player-list').childNodes);
+                fichajes.forEach(function(fichaje){
+                    if(fichaje.innerText !== 'Otras pujas' && fichaje.tagName == 'LI'){
+                        // console.log(fichaje);
+                        let precio = fichaje.querySelector('.item').querySelector('.player-row').querySelector('.price').innerText;
+                        let contenido = fichaje.querySelector('.item').querySelector('.title');
+                        let desde = contenido.getElementsByTagName('em')[0].innerText;
+                        let hacia = contenido.getElementsByTagName('em')[1].innerText;
+                        // console.log('Cambia de '+desde+' a '+hacia+' por '+precio);
+                        transacciones.push({'desde':desde,'hacia':hacia,'precio':replaceAll(precio, ".", "")});
+                    }
+                });
+            }
+        });
+
+        let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
+             'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK'];
+    
+
+        let resultados = [];
+
+        //PINTA TRANSACCIONES
+        let div = document.createElement('div');
+        add.innerHTML = "";
+        todos.forEach(function(nombre){
+            let jugador = {'nombre':nombre,'gasto':0};
+            transacciones.forEach(function(transaccion){
+                if(transaccion.desde === nombre){
+                    jugador.gasto = jugador.gasto+parseInt(transaccion.precio);
+                    // console.log(transaccion.precio);
+                }
+                if(transaccion.hacia === nombre){
+                    jugador.gasto = jugador.gasto-parseInt(transaccion.precio);
+                }
+            });
+            jugador.gasto = conPuntos(String(jugador.gasto));
+            resultados.push(jugador);
+        });
+        
+        let colores = ['#FECDC6', '#E5FEC6']
+        let ul = document.createElement('ul');
+        ul.style.padding = '20px';
+        ul.style.listStyle = 'none';
+        div.style.width = '500px';
+        let color = 0;
+        resultados.forEach(function(elemento){
+            let li = document.createElement('li');
+            let diva = document.createElement('div');
+            diva.style.display = 'flex';
+            diva.style.flexDirection = 'row';
+            diva.style.justifyContent = 'space-between';
+            let spana = document.createElement('span');
+            let spanb = document.createElement('span');
+            spana.innerText = elemento.nombre;
+            spanb.innerText = elemento.gasto;
+            diva.appendChild(spana);
+            diva.appendChild(spanb);
+            li.appendChild(diva);
+            
+            
+            li.style.margin = '5px';
+            li.style.color = 'black';
+            li.style.backgroundColor = colores[color%2];
+            color = color+1;
+            ul.appendChild(li);
+            div.appendChild(ul);
+            div.style.border = '3px solid green';
+            div.style.borderRadius = '5px';
+        });
+        add.appendChild(div);
+    }
+    
 }
 `;
 
