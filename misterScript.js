@@ -265,6 +265,12 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             jugador.gasto = conPuntos(String(jugador.gasto));
             resultados.push(jugador);
         });
+
+        //ORDENACION DE LOS RESULTADOS
+        resultados.sort(function(a, b) {
+            replaceAll(a, ".", "")
+            return (replaceAll(a.gasto, ".", "") - replaceAll(b.gasto, ".", ""));
+        });
         
         let colores = ['#FECDC6', '#E5FEC6']
         let ul = document.createElement('ul');
