@@ -144,7 +144,7 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
 /////////////////////////////////////////////
 
 let suplentes = [];
-
+let titulares = [];
 if(window.location.href === 'https://mister.mundodeportivo.com/team'){
     let lista = document.querySelector('.player-list');
     let jugadores = lista.querySelectorAll('li');
@@ -155,9 +155,13 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
             jugador.style.padding = '3px';
             suplentes.push(jugador);
         }
+        if(jugador.className !== '' && jugador.className.includes('in-lineup')){
+            jugador.style.padding = '3px';
+            titulares.push(jugador);
+        }
     });
 
-    //IMPRIMIR LOS JUGADORES
+    //IMPRIMIR LOS JUGADORES SUPENTES
     let ubicacion = document.querySelector('.ad-sidebar');
     ubicacion.innerText="";
     ubicacion.style.listStyle = 'none';
@@ -172,6 +176,30 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
     suplentes.forEach(function(suplente){
         ubicacion.appendChild(suplente);
     });
+
+    //IMPRIMIR LOS JUGADORES TITULARES
+    let ubicacionx = document.querySelector('.ad-header');
+    ubicacionx.innerText="";
+    ubicacionx.style.position = 'absolute';
+    ubicacionx.style.right = '100%';
+    ubicacionx.style.top = '-5%';
+    ubicacionx.style.zIndex = '10';
+    ubicacionx.style.display = 'flex';
+    ubicacionx.style.flexDirection = 'column';
+    ubicacionx.style.listStyle = 'none';
+    ubicacionx.style.marginTop = '10px';
+    ubicacionx.style.padding = '3px';
+    ubicacionx.style.heigth = 'fit-content';
+    ubicacionx.style.transform = 'scale(0.8)';
+    let h22 = document.createElement('h2');
+    h22.innerText = 'TITULARES';
+    h22.style.padding = '5px';
+    ubicacionx.appendChild(h22);
+    titulares.forEach(function(suplente){
+        ubicacionx.appendChild(suplente);
+    });
+
+
 }
 /////////////////////////////////////////////
 /////////////////////////////////////////////
@@ -403,6 +431,38 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
     
     }
 }
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//               MARKET VIEW               //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+
+if(window.location.href === 'https://mister.mundodeportivo.com/market'){
+    let add = document.querySelector('.ad-sidebar');
+    add.innerText = "";
+    let jugadoresEnVenta = document.querySelector('#list-on-sale').querySelectorAll('li');
+    // console.log(jugadoresEnVenta);
+    let jugadoresPujados = [];
+
+    jugadoresEnVenta.forEach(function(jugador){
+        jugador.style.listStyle = 'none';
+        // add.style.margin = '10px';
+        add.style.marginTop = '60px';
+        if(jugador.classList.length > 0 && jugador.querySelector('.header').querySelector('.date').querySelector('strong').innerText != 'Alio'){
+            if(jugador.querySelector('.player-row').querySelector('.player-btns').querySelector('.btn-bid').classList.contains('btn-green')){
+                jugadoresPujados.push(jugador);
+            }
+        }
+        
+    });
+
+    jugadoresPujados.forEach(function(jugador){
+        add.appendChild(jugador);
+    });
+}
+
 `;
 
 var script = document.createElement('script');
