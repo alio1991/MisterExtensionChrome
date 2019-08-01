@@ -125,13 +125,13 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     //INSERCION DE LOS DATOS POR GRUPOS
     let count = 1;
     imprimirGeneral.forEach(function(elemento){
-        general.innerHTML += '<li style="list-style:none; margin:10px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.valor+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
+        general.innerHTML += '<li style="list-style:none; margin:10px; padding:5px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.valor+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
         count +=1;
     });
 
     count = 1;
     imprimirJornada.forEach(function(elemento){
-        jornada.innerHTML += '<li style="list-style:none; margin:10px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.jugados+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
+        jornada.innerHTML += '<li style="list-style:none; margin:10px; padding:5px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.jugados+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
         count +=1;
     });
     
@@ -242,6 +242,28 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             }
         });
 
+        //RECOPILA CANCELADOS
+        let cancelados = [];
+        let cancel = document.querySelectorAll('.card-transfers_cancelled');
+        cancel.forEach(function(cancelado){
+            let transacciones = cancelado.querySelector('.transfers').querySelectorAll('li');
+            transacciones.forEach(function(transaccion){
+                let iDesde = transaccion.innerText.indexOf(', fichaje de ')+13;
+                let fDesde = transaccion.innerText.indexOf(' por ');
+                let iPrecio = transaccion.innerText.indexOf(' por ')+5;
+                let fPrecio = transaccion.innerText.indexOf(', vuelve a ');
+                let iHacia = transaccion.innerText.indexOf(', vuelve a ')+11;
+
+                let precio = transaccion.innerText.substr(iPrecio,(fPrecio-iPrecio));
+                let desde = transaccion.innerText.substr(iDesde,(fDesde-iDesde));
+                let hacia = transaccion.innerText.substr(iHacia);
+                // console.log('Cambia de '+desde+' a '+hacia+' por '+precio);
+                cancelados.push({'desde':desde,'hacia':hacia,'precio':replaceAll(precio, ".", "")});
+            });
+        });
+
+
+
         let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
              'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK'];
     
@@ -253,10 +275,19 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
         add.innerHTML = "";
         todos.forEach(function(nombre){
             let jugador = {'nombre':nombre,'gasto':0};
+            //CUENTAS DE TRANSACCIONES
             transacciones.forEach(function(transaccion){
                 if(transaccion.desde === nombre){
                     jugador.gasto = jugador.gasto+parseInt(transaccion.precio);
-                    // console.log(transaccion.precio);
+                }
+                if(transaccion.hacia === nombre){
+                    jugador.gasto = jugador.gasto-parseInt(transaccion.precio);
+                }
+            });
+            //CUENTAS DE CANCELACIONES
+            cancelados.forEach(function(transaccion){
+                if(transaccion.desde === nombre){
+                    jugador.gasto = jugador.gasto+parseInt(transaccion.precio);
                 }
                 if(transaccion.hacia === nombre){
                     jugador.gasto = jugador.gasto-parseInt(transaccion.precio);
@@ -266,6 +297,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             resultados.push(jugador);
         });
 
+        
         //ORDENACION DE LOS RESULTADOS
         resultados.sort(function(a, b) {
             replaceAll(a, ".", "")
