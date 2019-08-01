@@ -25,6 +25,15 @@ function conPuntos(cadena){
 
     return res;
 }
+
+let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
+             'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK']
+let grupoA = ['Alio', 'javi c.', 'RauL']
+let grupoB = ['Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy']
+let grupoC = ['Potes', 'Roberto Argaña', 'im mvp']
+let grupoD = ['RAGNAR LODBROK', 'Pablo', 'lombra']
+let grupos = [grupoA, grupoB, grupoC, grupoD]
+
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 //          CLASIFICATION VIEW             //
@@ -32,14 +41,6 @@ function conPuntos(cadena){
 /////////////////////////////////////////////
 
 if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/standings'){
-    let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
-             'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK']
-    let grupoA = ['Alio', 'javi c.', 'RauL']
-    let grupoB = ['Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy']
-    let grupoC = ['Potes', 'Roberto Argaña', 'im mvp']
-    let grupoD = ['RAGNAR LODBROK', 'Pablo', 'lombra']
-    let grupos = [grupoA, grupoB, grupoC, grupoD]
-
     let general = document.querySelector('.panel-total');
     let jugadoresGeneral = general.querySelectorAll('.user-row');
     let jornada = document.querySelector('.panel-gameweek');
@@ -306,10 +307,16 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
         
         let colores = ['#FECDC6', '#E5FEC6']
         let ul = document.createElement('ul');
+        let ulEquipos = document.createElement('ul');
+        ulEquipos.style.padding = '20px';
+        ulEquipos.style.listStyle = 'none';
         ul.style.padding = '20px';
         ul.style.listStyle = 'none';
         div.style.width = '500px';
         let color = 0;
+        let h2 = document.createElement('h2');
+        h2.innerText = '   GASTOS INDIVIDUALES';
+        ul.appendChild(h2);
         resultados.forEach(function(elemento){
             let li = document.createElement('li');
             let diva = document.createElement('div');
@@ -335,8 +342,66 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             div.style.borderRadius = '5px';
         });
         add.appendChild(div);
-    }
+
+        if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/feed'){
+
+            //POR GRUPOS
+            let resultadoPorGrupos = [];
+            grupos.forEach(function(grupo){
+                let name = "";
+                let pasta = 0;
+                grupo.forEach(function(miembro){
+                    resultados.forEach(function(tio){
+                        if(tio.nombre === miembro){
+                            name = name+' - '+tio.nombre;
+                            pasta = pasta+parseInt(replaceAll(tio.gasto, ".", ""));
+                        }
+                    });
+                });
+                resultadoPorGrupos.push({'nombre':name.substr(3,100), 'gasto': conPuntos(String(pasta))});
+            });
+            
+            //ORDENACION DE LOS RESULTADOS POR GRUPOS
+            resultadoPorGrupos.sort(function(a, b) {
+                replaceAll(a, ".", "")
+                return (replaceAll(a.gasto, ".", "") - replaceAll(b.gasto, ".", ""));
+            });
+
+
+
+            let h22 = document.createElement('h2');
+            h22.innerText = '    GASTOS POR EQUIPO';
+            ulEquipos.appendChild(h22);
+            resultadoPorGrupos.forEach(function(elemento){
+                let li = document.createElement('li');
+                let diva = document.createElement('div');
+                diva.style.display = 'flex';
+                diva.style.flexDirection = 'row';
+                diva.style.justifyContent = 'space-between';
+                let spana = document.createElement('span');
+                let spanb = document.createElement('span');
+                spana.innerText = elemento.nombre;
+                spanb.innerText = elemento.gasto;
+                diva.appendChild(spana);
+                diva.appendChild(spanb);
+                li.appendChild(diva);
+                
+                
+                li.style.margin = '5px';
+                li.style.color = 'black';
+                li.style.backgroundColor = colores[color%2];
+                color = color+1;
+                ulEquipos.appendChild(li);
+                div.appendChild(ulEquipos);
+                div.style.border = '3px solid green';
+                div.style.borderRadius = '5px';
+            });
+            add.appendChild(div);
+
+        }
+
     
+    }
 }
 `;
 
