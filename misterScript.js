@@ -34,6 +34,9 @@ let grupoC = ['Potes', 'Roberto Argaña', 'im mvp']
 let grupoD = ['RAGNAR LODBROK', 'Pablo', 'lombra']
 let grupos = [grupoA, grupoB, grupoC, grupoD]
 
+
+let transaccionesTotales = [];
+let select = document.createElement("select");  
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 //          CLASIFICATION VIEW             //
@@ -210,6 +213,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
 let add = document.querySelector('.ad-content-feed');
 if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
     
+    
     let bajada = 0;
     let bottom = document.querySelector('.slideout-panel');
     //CREACION DE BOTON BAJAR
@@ -265,6 +269,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
                         let desde = contenido.getElementsByTagName('em')[0].innerText;
                         let hacia = contenido.getElementsByTagName('em')[1].innerText;
                         // console.log('Cambia de '+desde+' a '+hacia+' por '+precio);
+                        transaccionesTotales.push(fichaje);
                         transacciones.push({'desde':desde,'hacia':hacia,'precio':replaceAll(precio, ".", "")});
                     }
                 });
@@ -426,10 +431,51 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             });
             add.appendChild(div);
 
-        }
+            //ELEMENTO BUSCAR TRANSACCIONES JUGADOR
+            let wraper = document.querySelector('.wrapper');
 
+            
+            select.setAttribute('id','seleccion');
+            todos.forEach(function(tio){
+                let entrada = document.createElement("option");
+                entrada.setAttribute('value',tio);
+                entrada.innerText = tio;
+                select.appendChild(entrada);
+            });
+            let boton = document.createElement('button'); 
+            boton.innerText = 'Buscar';
+            boton.setAttribute('onclick','setSelect()');
+            boton.style.backgroundColor = 'red';
+            let res = document.createElement('div'); 
+            let busquedaTransaccionesJugador = document.createElement("div");
+            busquedaTransaccionesJugador.style.position = 'absolute';
+            busquedaTransaccionesJugador.style.left = '-45%';
+            busquedaTransaccionesJugador.style.top = '50px';
+            busquedaTransaccionesJugador.setAttribute('class','resultadosFiltro');
+            busquedaTransaccionesJugador.appendChild(select);
+            busquedaTransaccionesJugador.appendChild(boton);
+            busquedaTransaccionesJugador.appendChild(res);
+            wraper.appendChild(busquedaTransaccionesJugador);
+            
+            // console.log(transaccionesTotales);
+        }
     
     }
+}
+
+function setSelect(){
+    let contenedor = document.querySelector('.resultadosFiltro').querySelector('div');
+
+    transaccionesTotales.forEach(function(transaccion){
+        let contenido = transaccion.querySelector('.item').querySelector('.title');
+        let comprador = contenido.getElementsByTagName('em')[1].innerText;
+        contenido.innerText = '';
+        if(comprador == select.value){
+            transaccion.style.transform = 'scale(0.8)';
+            contenedor.appendChild(transaccion);
+            console.log(transaccion);
+        }
+    });
 }
 
 /////////////////////////////////////////////
