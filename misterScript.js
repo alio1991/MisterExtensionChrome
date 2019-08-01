@@ -441,6 +441,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
 
 if(window.location.href === 'https://mister.mundodeportivo.com/market'){
     let add = document.querySelector('.ad-sidebar');
+    add.style.marginLeft = '20px';
     add.innerText = "";
     let jugadoresEnVenta = document.querySelector('#list-on-sale').querySelectorAll('li');
     // console.log(jugadoresEnVenta);
@@ -458,6 +459,11 @@ if(window.location.href === 'https://mister.mundodeportivo.com/market'){
         
     });
 
+    let h2 = document.createElement('h2');
+    h2.innerText = 'PUJAS ACTIVAS';
+    h2.style.marginBottom = '10px';
+    h2.style.color = 'red';
+    add.appendChild(h2);
     jugadoresPujados.forEach(function(jugador){
         add.appendChild(jugador);
     });
