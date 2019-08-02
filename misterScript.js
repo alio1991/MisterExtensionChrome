@@ -232,6 +232,10 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
     let botonImprimir = document.createElement('button');
     botonImprimir.innerText = 'Mostrar Transacciones';
     botonImprimir.setAttribute('onclick', 'revisar()');
+    botonImprimir.style.backgroundColor = '#1bd171';
+    botonImprimir.style.border = '2px solid black';
+    botonImprimir.style.borderRadius = '5px';
+    botonImprimir.style.padding = '3px';
 
     top.appendChild(botonImprimir);
 
@@ -433,42 +437,50 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             //ELEMENTO BUSCAR TRANSACCIONES JUGADOR
             let wraper = document.querySelector('.wrapper');
 
-            select.setAttribute('id','seleccion');
-            todos.forEach(function(tio){
-                let entrada = document.createElement("option");
-                entrada.setAttribute('value',tio);
-                entrada.innerText = tio;
-                select.appendChild(entrada);
-            });
+            
+            if(wraper.querySelector('.resultadosFiltro') == null){
+                select.setAttribute('id','seleccion');
+                todos.forEach(function(tio){
+                    let entrada = document.createElement("option");
+                    entrada.setAttribute('value',tio);
+                    entrada.innerText = tio;
+                    select.appendChild(entrada);
+                });
 
-            let boton = document.createElement('button'); 
-            boton.innerText = 'Buscar';
-            boton.setAttribute('onclick','setSelect()');
-            boton.style.backgroundColor = '#1bd171';
-            boton.style.border = '2px solid black';
-            boton.style.borderRadius = '5px';
-            boton.style.padding = '3px';
-            let res = document.createElement('div'); 
-            let busquedaTransaccionesJugador = document.createElement("div");
-            let caja = document.createElement("div");
-            caja.style.display = 'flex';
-            caja.style.flexDirection = 'row';
-            busquedaTransaccionesJugador.style.position = 'absolute';
-            busquedaTransaccionesJugador.style.left = '-55%';
-            busquedaTransaccionesJugador.style.top = '50px';
-            busquedaTransaccionesJugador.style.width = '300px';
+                let hijos = wraper.children
 
-            busquedaTransaccionesJugador.setAttribute('class','resultadosFiltro');
-            caja.appendChild(select);
-            caja.appendChild(boton);
-            busquedaTransaccionesJugador.appendChild(caja);
-            let cajaRes = document.createElement("div");
-            cajaRes.appendChild(res);
-            cajaRes.setAttribute('class','cajaRes');
-            cajaRes.style.listStyle = 'none';
+                let boton = document.createElement('button'); 
+                boton.innerText = 'Buscar';
+                boton.setAttribute('onclick','setSelect()');
+                boton.style.backgroundColor = '#1bd171';
+                boton.style.border = '2px solid black';
+                boton.style.borderRadius = '5px';
+                boton.style.padding = '3px';
+                let res = document.createElement('div'); 
+                let busquedaTransaccionesJugador = document.createElement("div");
+                let caja = document.createElement("div");
+                caja.style.display = 'flex';
+                caja.style.flexDirection = 'row';
+                caja.setAttribute('class','caja');
+                busquedaTransaccionesJugador.style.position = 'absolute';
+                busquedaTransaccionesJugador.style.left = '-55%';
+                busquedaTransaccionesJugador.style.top = '50px';
+                busquedaTransaccionesJugador.style.width = '300px';
+                
+                
+                busquedaTransaccionesJugador.setAttribute('class','resultadosFiltro');
+                caja.appendChild(select);
+                caja.appendChild(boton);
+                busquedaTransaccionesJugador.appendChild(caja);
+                let cajaRes = document.createElement("div");
+                cajaRes.appendChild(res);
+                cajaRes.setAttribute('class','cajaRes');
+                cajaRes.style.listStyle = 'none';
+    
+                busquedaTransaccionesJugador.appendChild(cajaRes);
+                wraper.appendChild(busquedaTransaccionesJugador);
+            }
 
-            busquedaTransaccionesJugador.appendChild(cajaRes);
-            wraper.appendChild(busquedaTransaccionesJugador);
         }
     
     }
@@ -484,7 +496,6 @@ function setSelect(){
         if(comprador == select.value){
             transaccion.style.transform = 'scale(0.9)';
             transaccion.style.margin = '5px';
-
             contenedor.appendChild(transaccion);
         }
     });
@@ -507,7 +518,6 @@ if(window.location.href === 'https://mister.mundodeportivo.com/market'){
 
     jugadoresEnVenta.forEach(function(jugador){
         jugador.style.listStyle = 'none';
-        // add.style.margin = '10px';
         add.style.marginTop = '60px';
         if(jugador.classList.length > 0 && jugador.querySelector('.header').querySelector('.date').querySelector('strong').innerText != 'Alio'){
             if(jugador.querySelector('.player-row').querySelector('.player-btns').querySelector('.btn-bid').classList.contains('btn-green')){
