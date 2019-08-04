@@ -120,16 +120,25 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     });
 
     //ELIMINACION DE LOS DATOS REALES DE LA WEB
-    let ulG = document.querySelectorAll('.user-list')[0];
-    ulG.innerText = "";
+    // let ulG = document.querySelectorAll('.user-list')[0];
+    // ulG.innerText = "";
     let ulJ = document.querySelectorAll('.user-list')[1];
     ulJ.innerText = "";
 
 
     //INSERCION DE LOS DATOS POR GRUPOS
+    let generalPosition = document.querySelector('.ad-content-standings');
+    generalPosition.innerText = "";
+    generalPosition.setAttribute('class','panels');
+    generalPosition.setAttribute('class','panels-standings');
+    let title = document.createElement('h2');
+    title.style.marginLeft = '30px';
+    title.style.paddingTop = '20px';
+    title.innerText = 'CLASIFICACIÓN GENERAL';
+    generalPosition.appendChild(title);
     let count = 1;
     imprimirGeneral.forEach(function(elemento){
-        general.innerHTML += '<li style="list-style:none; margin:10px; padding:5px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.valor+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
+        generalPosition.innerHTML += '<li style="list-style:none; margin:10px; padding:5px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.valor+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
         count +=1;
     });
 
@@ -480,6 +489,55 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
                 busquedaTransaccionesJugador.appendChild(cajaRes);
                 wraper.appendChild(busquedaTransaccionesJugador);
             }
+
+            let BotonCalcular = document.createElement('button'); 
+            BotonCalcular.innerText = 'Calcular';
+            BotonCalcular.setAttribute('onclick','calculaClausula()');
+            BotonCalcular.style.backgroundColor = '#1bd171';
+            BotonCalcular.style.border = '2px solid black';
+            BotonCalcular.style.borderRadius = '5px';
+            BotonCalcular.style.padding = '3px';
+
+            let inputValor = document.createElement('input'); 
+            inputValor.style.border = '2px solid black';
+            inputValor.style.borderRadius = '5px';
+            let inputClausula = document.createElement('input'); 
+            inputClausula.style.border = '2px solid black';
+            inputClausula.style.borderRadius = '5px';
+
+
+            let pregunta = document.createElement("div");
+            let respuesta = document.createElement('div');
+            respuesta.setAttribute('class','respuestaClausula');
+
+            pregunta.appendChild(inputValor);
+            pregunta.appendChild(inputClausula);
+            pregunta.appendChild(BotonCalcular);
+            
+            let contenedorClausula = document.createElement("div");
+            contenedorClausula.style.display = 'flex';
+            contenedorClausula.style.flexDirection = 'row';
+            contenedorClausula.setAttribute('class','clausula');
+            contenedorClausula.style.position = 'absolute';
+            contenedorClausula.style.left = '-55%';
+            contenedorClausula.style.top = '50px';
+            contenedorClausula.style.width = '300px';
+            
+            contenedorClausula.appendChild(pregunta);
+            contenedorClausula.appendChild(respuesta);
+
+            
+            // busquedaTransaccionesJugador.setAttribute('class','resultadosFiltro');
+            // caja.appendChild(select);
+            // caja.appendChild(BotonCalcular);
+            // busquedaTransaccionesJugador.appendChild(caja);
+            // let cajaRes = document.createElement("div");
+            // cajaRes.appendChild(respuesta);
+            // cajaRes.setAttribute('class','cajaRes');
+            // cajaRes.style.listStyle = 'none';
+
+            // busquedaTransaccionesJugador.appendChild(cajaRes);
+            wraper.appendChild(contenedorClausula);
 
         }
     
