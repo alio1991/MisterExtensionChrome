@@ -388,62 +388,64 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             div.style.borderRadius = '5px';
         });
         add.appendChild(div);
+        if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
+            if(document.querySelector(".league-name").innerText === 'Trapis-League'){
 
-        if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/feed'){
-
-            //POR GRUPOS
-            let resultadoPorGrupos = [];
-            grupos.forEach(function(grupo){
-                let name = "";
-                let pasta = 0;
-                grupo.forEach(function(miembro){
-                    resultados.forEach(function(tio){
-                        if(tio.nombre === miembro){
-                            name = name+' - '+tio.nombre;
-                            pasta = pasta+parseInt(replaceAll(tio.gasto, ".", ""));
-                        }
+                //POR GRUPOS
+                let resultadoPorGrupos = [];
+                grupos.forEach(function(grupo){
+                    let name = "";
+                    let pasta = 0;
+                    grupo.forEach(function(miembro){
+                        resultados.forEach(function(tio){
+                            if(tio.nombre === miembro){
+                                name = name+' - '+tio.nombre;
+                                pasta = pasta+parseInt(replaceAll(tio.gasto, ".", ""));
+                            }
+                        });
                     });
+                    resultadoPorGrupos.push({'nombre':name.substr(3,100), 'gasto': conPuntos(String(pasta))});
                 });
-                resultadoPorGrupos.push({'nombre':name.substr(3,100), 'gasto': conPuntos(String(pasta))});
-            });
-            
-            //ORDENACION DE LOS RESULTADOS POR GRUPOS
-            resultadoPorGrupos.sort(function(a, b) {
-                replaceAll(a, ".", "")
-                return (replaceAll(a.gasto, ".", "") - replaceAll(b.gasto, ".", ""));
-            });
-
-
-
-            let h22 = document.createElement('h2');
-            h22.innerText = '    GASTOS POR EQUIPO';
-            ulEquipos.appendChild(h22);
-            resultadoPorGrupos.forEach(function(elemento){
-                let li = document.createElement('li');
-                let diva = document.createElement('div');
-                diva.style.display = 'flex';
-                diva.style.flexDirection = 'row';
-                diva.style.justifyContent = 'space-between';
-                let spana = document.createElement('span');
-                let spanb = document.createElement('span');
-                spana.innerText = elemento.nombre;
-                spanb.innerText = elemento.gasto;
-                diva.appendChild(spana);
-                diva.appendChild(spanb);
-                li.appendChild(diva);
                 
-                li.style.margin = '5px';
-                li.style.color = 'black';
-                li.style.backgroundColor = colores[color%2];
-                color = color+1;
-                ulEquipos.appendChild(li);
-                div.appendChild(ulEquipos);
-                div.style.border = '3px solid green';
-                div.style.borderRadius = '5px';
-            });
-            add.appendChild(div);
+                //ORDENACION DE LOS RESULTADOS POR GRUPOS
+                resultadoPorGrupos.sort(function(a, b) {
+                    replaceAll(a, ".", "")
+                    return (replaceAll(a.gasto, ".", "") - replaceAll(b.gasto, ".", ""));
+                });
 
-            //ELEMENTO BUSCAR TRANSACCIONES JUGADOR
+
+
+                let h22 = document.createElement('h2');
+                h22.innerText = '    GASTOS POR EQUIPO';
+                ulEquipos.appendChild(h22);
+                resultadoPorGrupos.forEach(function(elemento){
+                    let li = document.createElement('li');
+                    let diva = document.createElement('div');
+                    diva.style.display = 'flex';
+                    diva.style.flexDirection = 'row';
+                    diva.style.justifyContent = 'space-between';
+                    let spana = document.createElement('span');
+                    let spanb = document.createElement('span');
+                    spana.innerText = elemento.nombre;
+                    spanb.innerText = elemento.gasto;
+                    diva.appendChild(spana);
+                    diva.appendChild(spanb);
+                    li.appendChild(diva);
+                    
+                    li.style.margin = '5px';
+                    li.style.color = 'black';
+                    li.style.backgroundColor = colores[color%2];
+                    color = color+1;
+                    ulEquipos.appendChild(li);
+                    div.appendChild(ulEquipos);
+                    div.style.border = '3px solid green';
+                    div.style.borderRadius = '5px';
+                });
+                add.appendChild(div);
+
+                }
+            }
+        //ELEMENTO BUSCAR TRANSACCIONES JUGADOR
             let wraper = document.querySelector('.wrapper');
 
             
@@ -488,7 +490,6 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
     
                 busquedaTransaccionesJugador.appendChild(cajaRes);
                 wraper.appendChild(busquedaTransaccionesJugador);
-            }
         }
     }
     showClausulas();
