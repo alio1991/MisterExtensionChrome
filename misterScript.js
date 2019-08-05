@@ -664,16 +664,21 @@ function incrustaClausulas(){
     let valor = barra.querySelectorAll('.item')[0].querySelector('.value').innerText;
     let clausula = barra.querySelectorAll('.item')[1].querySelector('.value').innerText;
     let compradoPorClausula = document.querySelector("body > div.sw > div.sw-content > div.wrapper.sw-profile > div.boxes > div.box.box-owner > p")
+    valor = parseInt(replaceAll(valor, ".", ""));
+    clausula = parseInt(replaceAll(clausula, ".", ""));
 
     if(compradoPorClausula.innerText.includes(', fichado el ')){
         let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
         let valorP = compradoPorClausula.innerText.substr(iPrecio);
+        valorP = parseInt(replaceAll(valorP, ".", ""));
+        console.log(valorP);
+        // debugger;
         if(valorP > valor){
             valor = valorP;
         }
     }
-    valor = parseInt(replaceAll(valor, ".", ""));
-    clausula = parseInt(replaceAll(clausula, ".", ""));
+    console.log(valor);
+    
     let valorPorEscalon = valor/2;
     let costeSubidaEscalon = valor/5;
     let escalonesSubidos = -1;
