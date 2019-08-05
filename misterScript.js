@@ -489,58 +489,99 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
                 busquedaTransaccionesJugador.appendChild(cajaRes);
                 wraper.appendChild(busquedaTransaccionesJugador);
             }
-
-            let BotonCalcular = document.createElement('button'); 
-            BotonCalcular.innerText = 'Calcular';
-            BotonCalcular.setAttribute('onclick','calculaClausula()');
-            BotonCalcular.style.backgroundColor = '#1bd171';
-            BotonCalcular.style.border = '2px solid black';
-            BotonCalcular.style.borderRadius = '5px';
-            BotonCalcular.style.padding = '3px';
-
-            let inputValor = document.createElement('input'); 
-            inputValor.style.border = '2px solid black';
-            inputValor.style.borderRadius = '5px';
-            let inputClausula = document.createElement('input'); 
-            inputClausula.style.border = '2px solid black';
-            inputClausula.style.borderRadius = '5px';
-
-
-            let pregunta = document.createElement("div");
-            let respuesta = document.createElement('div');
-            respuesta.setAttribute('class','respuestaClausula');
-
-            pregunta.appendChild(inputValor);
-            pregunta.appendChild(inputClausula);
-            pregunta.appendChild(BotonCalcular);
-            
-            let contenedorClausula = document.createElement("div");
-            contenedorClausula.style.display = 'flex';
-            contenedorClausula.style.flexDirection = 'row';
-            contenedorClausula.setAttribute('class','clausula');
-            contenedorClausula.style.position = 'absolute';
-            contenedorClausula.style.left = '-55%';
-            contenedorClausula.style.top = '50px';
-            contenedorClausula.style.width = '300px';
-            
-            contenedorClausula.appendChild(pregunta);
-            contenedorClausula.appendChild(respuesta);
-
-            
-            // busquedaTransaccionesJugador.setAttribute('class','resultadosFiltro');
-            // caja.appendChild(select);
-            // caja.appendChild(BotonCalcular);
-            // busquedaTransaccionesJugador.appendChild(caja);
-            // let cajaRes = document.createElement("div");
-            // cajaRes.appendChild(respuesta);
-            // cajaRes.setAttribute('class','cajaRes');
-            // cajaRes.style.listStyle = 'none';
-
-            // busquedaTransaccionesJugador.appendChild(cajaRes);
-            wraper.appendChild(contenedorClausula);
-
         }
+    }
+    showClausulas();
+}
+
+function showClausulas(){
+    let wraper = document.querySelector('.wrapper');
+    let botonCalcular = document.createElement('button'); 
+    botonCalcular.innerText = 'Calcular';
+    botonCalcular.setAttribute('onclick','calculaClausula(this)');
+    botonCalcular.style.backgroundColor = '#1bd171';
+    botonCalcular.style.border = '2px solid black';
+    botonCalcular.style.borderRadius = '5px';
+    botonCalcular.style.padding = '3px';
+
+    let inputValor = document.createElement('input'); 
+    inputValor.style.border = '2px solid black';
+    inputValor.style.borderRadius = '5px';
+    inputValor.style.padding = '5px';
+    inputValor.setAttribute('placeHolder','Valor máximo del jugador');
+    inputValor.setAttribute('class','valor');
+    let inputClausula = document.createElement('input'); 
+    inputClausula.style.border = '2px solid black';
+    inputClausula.style.borderRadius = '5px';
+    inputClausula.setAttribute('placeHolder','Valor de su clausula');
+    inputClausula.setAttribute('class','clausula');
+    inputClausula.style.padding = '5px';
+
+
+    let pregunta = document.createElement("div");
+    let respuesta = document.createElement('div');
+    respuesta.setAttribute('class','respuestaClausula');
+
+    pregunta.appendChild(inputValor);
+    pregunta.appendChild(inputClausula);
+    pregunta.appendChild(botonCalcular);
+    respuesta.style.paddingTop = '20px';
+
     
+    let contenedorClausula = document.createElement("div");
+    contenedorClausula.style.display = 'flex';
+    contenedorClausula.style.flexDirection = 'column';
+    contenedorClausula.setAttribute('class','clausula');
+    contenedorClausula.style.position = 'absolute';
+    contenedorClausula.style.left = '105%';
+    contenedorClausula.style.top = '50px';
+    contenedorClausula.style.width = '300px';
+    
+    contenedorClausula.appendChild(pregunta);
+    contenedorClausula.appendChild(respuesta);
+
+    wraper.appendChild(contenedorClausula);
+}
+
+function calculaClausula(ev){
+    let valor = parseInt(ev.parentElement.querySelector('.valor').value);
+    let clausula = parseInt(ev.parentElement.querySelector('.clausula').value);
+    let solucion = ev.parentElement.querySelector('.respuestaClausula');
+    let cont = document.querySelector('.respuestaClausula');
+    if(valor > clausula){
+        alert('La clausula no puede ser menor al valor');
+    }else{
+        let valorPorEscalon = valor/2;
+        let costeSubidaEscalon = valor/5;
+        let escalonesSubidos = -1;
+
+        //CALCULA ESCALONES
+        if(clausula < (valor+valorPorEscalon+500000)){
+            escalonesSubidos = 0;
+        }else{
+            for(let i=valor; i<clausula; i = i+valorPorEscalon+100000){
+                escalonesSubidos++;
+            }
+        }
+        let dineroGastado = escalonesSubidos*costeSubidaEscalon;
+
+        costeSubidaEscalon = conPuntos(costeSubidaEscalon.toString());
+        escalonesSubidos = escalonesSubidos.toString();
+        dineroGastado = conPuntos(dineroGastado.toString());
+
+        //ESCRIBIR RESULTADOS
+        // console.log('Coste de subida de escalon: '+costeSubidaEscalon);
+        // console.log('Escalones subidos: '+escalonesSubidos);
+        // console.log('Dinero Gastado: '+dineroGastado);
+        let subida = document.createElement('h3');
+        subida.innerText = 'Coste de subida de escalon: '+costeSubidaEscalon;
+        let escalon = document.createElement('h3');
+        escalon.innerText = 'Escalones subidos: '+escalonesSubidos;
+        let pasta = document.createElement('h3');
+        pasta.innerText = 'Dinero Gastado: '+dineroGastado;
+        cont.appendChild(subida);
+        cont.appendChild(escalon);
+        cont.appendChild(pasta);
     }
 }
 
@@ -564,7 +605,6 @@ function setSelect(){
 //               MARKET VIEW               //
 /////////////////////////////////////////////
 /////////////////////////////////////////////
-
 
 if(window.location.href === 'https://mister.mundodeportivo.com/market'){
     let add = document.querySelector('.ad-sidebar');
@@ -594,6 +634,83 @@ if(window.location.href === 'https://mister.mundodeportivo.com/market'){
         add.appendChild(jugador);
     });
 }
+
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//               PLAYER VIEW               //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+if(window.location.href.includes('https://mister.mundodeportivo.com/standings#players/')){
+    let superficie = document.querySelector('body');
+    
+    let botonClausulas = document.createElement('button'); 
+    botonClausulas.innerText = 'Mostrar valor clausulas';
+    botonClausulas.setAttribute('onclick','incrustaClausulas()');
+    botonClausulas.style.backgroundColor = '#1bd171';
+    botonClausulas.style.border = '2px solid black';
+    botonClausulas.style.borderRadius = '5px';
+    botonClausulas.style.padding = '3px';
+    botonClausulas.style.position = 'absolute';
+    botonClausulas.style.left = '85%';
+    botonClausulas.style.top = '20%';
+    botonClausulas.style.zIndex = '99999';
+    superficie.appendChild(botonClausulas);
+}
+
+function incrustaClausulas(){
+    let barra = document.querySelector('.profile-player').querySelector('.wrapper').querySelector('.numbers').querySelector('.items');
+    let valor = barra.querySelectorAll('.item')[0].querySelector('.value').innerText;
+    let clausula = barra.querySelectorAll('.item')[1].querySelector('.value').innerText;
+    let compradoPorClausula = document.querySelector("body > div.sw > div.sw-content > div.wrapper.sw-profile > div.boxes > div.box.box-owner > p")
+
+    if(compradoPorClausula.innerText.includes(', fichado el ')){
+        let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
+        let valorP = compradoPorClausula.innerText.substr(iPrecio);
+        if(valorP > valor){
+            valor = valorP;
+        }
+    }
+    valor = parseInt(replaceAll(valor, ".", ""));
+    clausula = parseInt(replaceAll(clausula, ".", ""));
+    let valorPorEscalon = valor/2;
+    let costeSubidaEscalon = valor/5;
+    let escalonesSubidos = -1;
+
+    //CALCULA ESCALONES
+    if(clausula < (valor+valorPorEscalon+500000)){
+        escalonesSubidos = 0;
+    }else{
+        for(let i=valor; i<clausula; i = i+valorPorEscalon+100000){
+            escalonesSubidos++;
+        }
+    }
+    let dineroGastado = escalonesSubidos*costeSubidaEscalon;
+
+    costeSubidaEscalon = conPuntos(costeSubidaEscalon.toString());
+    escalonesSubidos = escalonesSubidos.toString();
+    dineroGastado = conPuntos(dineroGastado.toString());
+
+    //ESCRIBIR RESULTADOS
+    let escalones = document.createElement('div');
+    escalones.setAttribute('class','item');
+    escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/4</div><div class="label">Escalones</div>';
+
+    let valorSubida = document.createElement('div');
+    valorSubida.setAttribute('class','item');
+    valorSubida.innerHTML = '<div class="value">'+costeSubidaEscalon+'</div><div class="label">Dinero/escalon</div>';
+
+    let valorClausula = document.createElement('div');
+    valorClausula.setAttribute('class','item');
+    valorClausula.innerHTML = '<div class="value" style="width: 300px">'+dineroGastado+'</div><div class="label">Dinero total clausula</div>';
+
+    barra.appendChild(escalones);
+    barra.appendChild(valorSubida);
+    barra.appendChild(valorClausula);
+    
+}
+
 
 `;
 
