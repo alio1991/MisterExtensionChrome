@@ -661,58 +661,60 @@ if(window.location.href.includes('https://mister.mundodeportivo.com/standings#pl
 
 function incrustaClausulas(){
     let barra = document.querySelector('.profile-player').querySelector('.wrapper').querySelector('.numbers').querySelector('.items');
-    let valor = barra.querySelectorAll('.item')[0].querySelector('.value').innerText;
-    let clausula = barra.querySelectorAll('.item')[1].querySelector('.value').innerText;
-    let compradoPorClausula = document.querySelector("body > div.sw > div.sw-content > div.wrapper.sw-profile > div.boxes > div.box.box-owner > p")
-    valor = parseInt(replaceAll(valor, ".", ""));
-    clausula = parseInt(replaceAll(clausula, ".", ""));
+    if(barra.querySelector('.kkkk') === null){
+        let valor = barra.querySelectorAll('.item')[0].querySelector('.value').innerText;
+        let clausula = barra.querySelectorAll('.item')[1].querySelector('.value').innerText;
+        let compradoPorClausula = document.querySelector("body > div.sw > div.sw-content > div.wrapper.sw-profile > div.boxes > div.box.box-owner > p")
+        valor = parseInt(replaceAll(valor, ".", ""));
+        clausula = parseInt(replaceAll(clausula, ".", ""));
 
-    if(compradoPorClausula.innerText.includes(', fichado el ')){
-        let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
-        let valorP = compradoPorClausula.innerText.substr(iPrecio);
-        valorP = parseInt(replaceAll(valorP, ".", ""));
-        console.log(valorP);
-        // debugger;
-        if(valorP > valor){
-            valor = valorP;
+        if(compradoPorClausula.innerText.includes(', fichado el ')){
+            let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
+            let valorP = compradoPorClausula.innerText.substr(iPrecio);
+            valorP = parseInt(replaceAll(valorP, ".", ""));
+
+            if(valorP > valor){
+                valor = valorP;
+            }
         }
+        console.log(valor);
+        
+        let valorPorEscalon = valor/2;
+        let costeSubidaEscalon = valor/5;
+        let escalonesSubidos = -1;
+
+        //CALCULA ESCALONES
+        if(clausula < (valor+valorPorEscalon+500000)){
+            escalonesSubidos = 0;
+        }else{
+            for(let i=valor; i<clausula; i = i+valorPorEscalon+100000){
+                escalonesSubidos++;
+            }
+        }
+        let dineroGastado = escalonesSubidos*costeSubidaEscalon;
+
+        costeSubidaEscalon = conPuntos(costeSubidaEscalon.toString());
+        escalonesSubidos = escalonesSubidos.toString();
+        dineroGastado = conPuntos(dineroGastado.toString());
+
+        //ESCRIBIR RESULTADOS
+        let escalones = document.createElement('div');
+        escalones.setAttribute('class','item');
+        escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/4</div><div class="label">Escalones</div>';
+
+        let valorSubida = document.createElement('div');
+        valorSubida.setAttribute('class','item');
+        valorSubida.innerHTML = '<div class="value">'+costeSubidaEscalon+'</div><div class="label">Dinero/escalon</div>';
+
+        let valorClausula = document.createElement('div');
+        valorClausula.setAttribute('class','item kkkk');
+        valorClausula.innerHTML = '<div class="value" style="width: 200px">'+dineroGastado+'</div><div class="label">Dinero total clausula</div>';
+
+        barra.appendChild(escalones);
+        barra.appendChild(valorSubida);
+        barra.appendChild(valorClausula);
     }
-    console.log(valor);
     
-    let valorPorEscalon = valor/2;
-    let costeSubidaEscalon = valor/5;
-    let escalonesSubidos = -1;
-
-    //CALCULA ESCALONES
-    if(clausula < (valor+valorPorEscalon+500000)){
-        escalonesSubidos = 0;
-    }else{
-        for(let i=valor; i<clausula; i = i+valorPorEscalon+100000){
-            escalonesSubidos++;
-        }
-    }
-    let dineroGastado = escalonesSubidos*costeSubidaEscalon;
-
-    costeSubidaEscalon = conPuntos(costeSubidaEscalon.toString());
-    escalonesSubidos = escalonesSubidos.toString();
-    dineroGastado = conPuntos(dineroGastado.toString());
-
-    //ESCRIBIR RESULTADOS
-    let escalones = document.createElement('div');
-    escalones.setAttribute('class','item');
-    escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/4</div><div class="label">Escalones</div>';
-
-    let valorSubida = document.createElement('div');
-    valorSubida.setAttribute('class','item');
-    valorSubida.innerHTML = '<div class="value">'+costeSubidaEscalon+'</div><div class="label">Dinero/escalon</div>';
-
-    let valorClausula = document.createElement('div');
-    valorClausula.setAttribute('class','item');
-    valorClausula.innerHTML = '<div class="value" style="width: 300px">'+dineroGastado+'</div><div class="label">Dinero total clausula</div>';
-
-    barra.appendChild(escalones);
-    barra.appendChild(valorSubida);
-    barra.appendChild(valorClausula);
     
 }
 
