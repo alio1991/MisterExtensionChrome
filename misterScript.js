@@ -388,64 +388,64 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
             div.style.borderRadius = '5px';
         });
         add.appendChild(div);
-        if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
-            if(document.querySelector(".league-name").innerText === 'Trapis-League'){
 
-                //POR GRUPOS
-                let resultadoPorGrupos = [];
-                grupos.forEach(function(grupo){
-                    let name = "";
-                    let pasta = 0;
-                    grupo.forEach(function(miembro){
-                        resultados.forEach(function(tio){
-                            if(tio.nombre === miembro){
-                                name = name+' - '+tio.nombre;
-                                pasta = pasta+parseInt(replaceAll(tio.gasto, ".", ""));
-                            }
-                        });
+        if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/feed'){
+
+            //POR GRUPOS
+            let resultadoPorGrupos = [];
+            grupos.forEach(function(grupo){
+                let name = "";
+                let pasta = 0;
+                grupo.forEach(function(miembro){
+                    resultados.forEach(function(tio){
+                        if(tio.nombre === miembro){
+                            name = name+' - '+tio.nombre;
+                            pasta = pasta+parseInt(replaceAll(tio.gasto, ".", ""));
+                        }
                     });
-                    resultadoPorGrupos.push({'nombre':name.substr(3,100), 'gasto': conPuntos(String(pasta))});
                 });
+                resultadoPorGrupos.push({'nombre':name.substr(3,100), 'gasto': conPuntos(String(pasta))});
+            });
+            
+            //ORDENACION DE LOS RESULTADOS POR GRUPOS
+            resultadoPorGrupos.sort(function(a, b) {
+                replaceAll(a, ".", "")
+                return (replaceAll(a.gasto, ".", "") - replaceAll(b.gasto, ".", ""));
+            });
+
+
+
+            let h22 = document.createElement('h2');
+            h22.innerText = '    GASTOS POR EQUIPO';
+            ulEquipos.appendChild(h22);
+            resultadoPorGrupos.forEach(function(elemento){
+                let li = document.createElement('li');
+                let diva = document.createElement('div');
+                diva.style.display = 'flex';
+                diva.style.flexDirection = 'row';
+                diva.style.justifyContent = 'space-between';
+                let spana = document.createElement('span');
+                let spanb = document.createElement('span');
+                spana.innerText = elemento.nombre;
+                spanb.innerText = elemento.gasto;
+                diva.appendChild(spana);
+                diva.appendChild(spanb);
+                li.appendChild(diva);
                 
-                //ORDENACION DE LOS RESULTADOS POR GRUPOS
-                resultadoPorGrupos.sort(function(a, b) {
-                    replaceAll(a, ".", "")
-                    return (replaceAll(a.gasto, ".", "") - replaceAll(b.gasto, ".", ""));
-                });
+                li.style.margin = '5px';
+                li.style.color = 'black';
+                li.style.backgroundColor = colores[color%2];
+                color = color+1;
+                ulEquipos.appendChild(li);
+                div.appendChild(ulEquipos);
+                div.style.border = '3px solid green';
+                div.style.borderRadius = '5px';
+            });
+            add.appendChild(div);
 
-
-
-                let h22 = document.createElement('h2');
-                h22.innerText = '    GASTOS POR EQUIPO';
-                ulEquipos.appendChild(h22);
-                resultadoPorGrupos.forEach(function(elemento){
-                    let li = document.createElement('li');
-                    let diva = document.createElement('div');
-                    diva.style.display = 'flex';
-                    diva.style.flexDirection = 'row';
-                    diva.style.justifyContent = 'space-between';
-                    let spana = document.createElement('span');
-                    let spanb = document.createElement('span');
-                    spana.innerText = elemento.nombre;
-                    spanb.innerText = elemento.gasto;
-                    diva.appendChild(spana);
-                    diva.appendChild(spanb);
-                    li.appendChild(diva);
-                    
-                    li.style.margin = '5px';
-                    li.style.color = 'black';
-                    li.style.backgroundColor = colores[color%2];
-                    color = color+1;
-                    ulEquipos.appendChild(li);
-                    div.appendChild(ulEquipos);
-                    div.style.border = '3px solid green';
-                    div.style.borderRadius = '5px';
-                });
-                add.appendChild(div);
-
-                }
+            
             }
-        //ELEMENTO BUSCAR TRANSACCIONES JUGADOR
+            //ELEMENTO BUSCAR TRANSACCIONES JUGADOR
             let wraper = document.querySelector('.wrapper');
 
             
@@ -491,6 +491,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
                 busquedaTransaccionesJugador.appendChild(cajaRes);
                 wraper.appendChild(busquedaTransaccionesJugador);
         }
+        
     }
     showClausulas();
 }
@@ -662,60 +663,58 @@ if(window.location.href.includes('https://mister.mundodeportivo.com/standings#pl
 
 function incrustaClausulas(){
     let barra = document.querySelector('.profile-player').querySelector('.wrapper').querySelector('.numbers').querySelector('.items');
-    if(barra.querySelector('.kkkk') === null){
-        let valor = barra.querySelectorAll('.item')[0].querySelector('.value').innerText;
-        let clausula = barra.querySelectorAll('.item')[1].querySelector('.value').innerText;
-        let compradoPorClausula = document.querySelector("body > div.sw > div.sw-content > div.wrapper.sw-profile > div.boxes > div.box.box-owner > p")
-        valor = parseInt(replaceAll(valor, ".", ""));
-        clausula = parseInt(replaceAll(clausula, ".", ""));
+    let valor = barra.querySelectorAll('.item')[0].querySelector('.value').innerText;
+    let clausula = barra.querySelectorAll('.item')[1].querySelector('.value').innerText;
+    let compradoPorClausula = document.querySelector("body > div.sw > div.sw-content > div.wrapper.sw-profile > div.boxes > div.box.box-owner > p")
+    valor = parseInt(replaceAll(valor, ".", ""));
+    clausula = parseInt(replaceAll(clausula, ".", ""));
 
-        if(compradoPorClausula.innerText.includes(', fichado el ')){
-            let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
-            let valorP = compradoPorClausula.innerText.substr(iPrecio);
-            valorP = parseInt(replaceAll(valorP, ".", ""));
-
-            if(valorP > valor){
-                valor = valorP;
-            }
+    if(compradoPorClausula.innerText.includes(', fichado el ')){
+        let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
+        let valorP = compradoPorClausula.innerText.substr(iPrecio);
+        valorP = parseInt(replaceAll(valorP, ".", ""));
+        console.log(valorP);
+        // debugger;
+        if(valorP > valor){
+            valor = valorP;
         }
-        console.log(valor);
-        
-        let valorPorEscalon = valor/2;
-        let costeSubidaEscalon = valor/5;
-        let escalonesSubidos = -1;
-
-        //CALCULA ESCALONES
-        if(clausula < (valor+valorPorEscalon+500000)){
-            escalonesSubidos = 0;
-        }else{
-            for(let i=valor; i<clausula; i = i+valorPorEscalon+100000){
-                escalonesSubidos++;
-            }
-        }
-        let dineroGastado = escalonesSubidos*costeSubidaEscalon;
-
-        costeSubidaEscalon = conPuntos(costeSubidaEscalon.toString());
-        escalonesSubidos = escalonesSubidos.toString();
-        dineroGastado = conPuntos(dineroGastado.toString());
-
-        //ESCRIBIR RESULTADOS
-        let escalones = document.createElement('div');
-        escalones.setAttribute('class','item');
-        escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/4</div><div class="label">Escalones</div>';
-
-        let valorSubida = document.createElement('div');
-        valorSubida.setAttribute('class','item');
-        valorSubida.innerHTML = '<div class="value">'+costeSubidaEscalon+'</div><div class="label">Dinero/escalon</div>';
-
-        let valorClausula = document.createElement('div');
-        valorClausula.setAttribute('class','item kkkk');
-        valorClausula.innerHTML = '<div class="value" style="width: 200px">'+dineroGastado+'</div><div class="label">Dinero total clausula</div>';
-
-        barra.appendChild(escalones);
-        barra.appendChild(valorSubida);
-        barra.appendChild(valorClausula);
     }
+    console.log(valor);
     
+    let valorPorEscalon = valor/2;
+    let costeSubidaEscalon = valor/5;
+    let escalonesSubidos = -1;
+
+    //CALCULA ESCALONES
+    if(clausula < (valor+valorPorEscalon+500000)){
+        escalonesSubidos = 0;
+    }else{
+        for(let i=valor; i<clausula; i = i+valorPorEscalon+100000){
+            escalonesSubidos++;
+        }
+    }
+    let dineroGastado = escalonesSubidos*costeSubidaEscalon;
+
+    costeSubidaEscalon = conPuntos(costeSubidaEscalon.toString());
+    escalonesSubidos = escalonesSubidos.toString();
+    dineroGastado = conPuntos(dineroGastado.toString());
+
+    //ESCRIBIR RESULTADOS
+    let escalones = document.createElement('div');
+    escalones.setAttribute('class','item');
+    escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/4</div><div class="label">Escalones</div>';
+
+    let valorSubida = document.createElement('div');
+    valorSubida.setAttribute('class','item');
+    valorSubida.innerHTML = '<div class="value">'+costeSubidaEscalon+'</div><div class="label">Dinero/escalon</div>';
+
+    let valorClausula = document.createElement('div');
+    valorClausula.setAttribute('class','item');
+    valorClausula.innerHTML = '<div class="value" style="width: 300px">'+dineroGastado+'</div><div class="label">Dinero total clausula</div>';
+
+    barra.appendChild(escalones);
+    barra.appendChild(valorSubida);
+    barra.appendChild(valorClausula);
     
 }
 
