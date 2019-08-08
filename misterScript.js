@@ -212,6 +212,41 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
     });
 
 
+    //CREACION DE BOTON Quitar venta y Poner Venta
+    let container = document.querySelector('.slideout-panel');
+    
+    let botonAlternar = document.createElement('button');
+    botonAlternar.innerText = 'Quitar/Poner Venta todos';
+    botonAlternar.setAttribute('class', 'offerOrLeaveMarket');
+    botonAlternar.setAttribute('onclick', 'alternar()');
+    botonAlternar.style.marginRight = '70px';
+    botonAlternar.style.backgroundColor = '#1bd171';
+    botonAlternar.style.border = '2px solid black';
+    botonAlternar.style.borderRadius = '5px';
+    botonAlternar.style.padding = '3px';
+    botonAlternar.style.position = 'absolute';
+    botonAlternar.style.left = '85%';
+    botonAlternar.style.top = '10%';
+    botonAlternar.style.zIndex = '100';
+    container.appendChild(botonAlternar);
+
+    function alternar(){
+        let botonesJugador = document.querySelectorAll('.btn-sale');
+        console.log(botonesJugador.length);
+        botonesJugador.forEach(function(boton){
+            boton.click();
+            console.log(document.querySelectorAll('#btn-send'));
+            let botonSecundario = document.querySelectorAll('#btn-send')[0];
+            botonSecundario.click();
+        });
+    }
+
+
+
+//btn btn-red
+//btn-sale
+//#btn-send
+
 }
 /////////////////////////////////////////////
 /////////////////////////////////////////////
@@ -718,6 +753,39 @@ function incrustaClausulas(){
     
 }
 
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//            PLAYER OFFERS VIEW           //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+if(window.location.href === 'https://mister.mundodeportivo.com/market#market/offers-received'){
+
+    let container = document.querySelector('.sw-content');
+    //CREACION DE BOTON DENEGAR OFERTA
+    let botonDenegar = document.createElement('button');
+    botonDenegar.innerText = 'Denegar Ofertas';
+    botonDenegar.setAttribute('class', 'deniedOffer');
+    botonDenegar.setAttribute('onclick', 'denegar()');
+    botonDenegar.style.marginRight = '70px';
+    botonDenegar.style.backgroundColor = '#1bd171';
+    botonDenegar.style.border = '2px solid black';
+    botonDenegar.style.borderRadius = '5px';
+    botonDenegar.style.padding = '3px';
+    botonDenegar.style.position = 'absolute';
+    botonDenegar.style.left = '85%';
+    botonDenegar.style.top = '1%';
+    botonDenegar.style.zIndex = '99999';
+    container.appendChild(botonDenegar);
+
+    function denegar(){
+        let botonesDenegar = document.querySelectorAll('.btn-decline');
+        botonesDenegar.forEach(function(boton){
+            boton.click();
+        });
+    }
+}
 
 `;
 
