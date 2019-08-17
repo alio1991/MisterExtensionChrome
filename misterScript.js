@@ -112,11 +112,11 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
 
     //ORDENACION DE LAS LISTAS
     imprimirGeneral.sort(function(a, b) {
-        return (a.puntos - b.puntos);
+        return (b.puntos - a.puntos);
     });
 
     imprimirJornada.sort(function(a, b) {
-        return (a.puntos - b.puntos);
+        return (b.puntos - a.puntos);
     });
 
     //ELIMINACION DE LOS DATOS REALES DE LA WEB
