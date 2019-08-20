@@ -241,12 +241,6 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
         });
     }
 
-
-
-//btn btn-red
-//btn-sale
-//#btn-send
-
 }
 /////////////////////////////////////////////
 /////////////////////////////////////////////
