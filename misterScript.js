@@ -703,7 +703,6 @@ function incrustaClausulas(){
         let valorP = compradoPorClausula.innerText.substr(iPrecio);
         valorP = parseInt(replaceAll(valorP, ".", ""));
         console.log(valorP);
-        // debugger;
         if(valorP > valor){
             valor = valorP;
         }
@@ -777,6 +776,71 @@ if(window.location.href === 'https://mister.mundodeportivo.com/market#market/off
         let botonesDenegar = document.querySelectorAll('.btn-decline');
         botonesDenegar.forEach(function(boton){
             boton.click();
+        });
+    }
+}
+
+
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+//             PLAYERS RANKING             //
+/////////////////////////////////////////////
+/////////////////////////////////////////////
+
+if(window.location.href === 'https://mister.mundodeportivo.com/more#players'){
+
+    let container = document.querySelector('.sw-content');
+    //CREACION DE BOTON CLAUSULAS BARATAS
+    let menoresClausulas = document.createElement('button');
+    menoresClausulas.innerText = 'Filtrar';
+    menoresClausulas.setAttribute('class', 'btn-green');
+    menoresClausulas.setAttribute('onclick', 'filtrar()');
+    menoresClausulas.style.marginRight = '70px';
+    menoresClausulas.style.backgroundColor = '#1bd171';
+    menoresClausulas.style.border = '2px solid black';
+    menoresClausulas.style.borderRadius = '5px';
+    menoresClausulas.style.padding = '3px';
+    menoresClausulas.style.position = 'absolute';
+    menoresClausulas.style.left = '85%';
+    menoresClausulas.style.top = '4%';
+    menoresClausulas.style.zIndex = '99999';
+    
+
+    //INPUT VALOR LIMITE
+    let inputLimite = document.createElement('input'); 
+    inputLimite.style.border = '2px solid black';
+    inputLimite.style.borderRadius = '5px';
+    inputLimite.style.padding = '5px';
+    inputLimite.setAttribute('placeHolder','Valor máximo de la clausula');
+    inputLimite.setAttribute('class','valor');
+    inputLimite.style.position = 'absolute';
+    inputLimite.style.zIndex = '99990';
+    inputLimite.style.left = '85%';
+    inputLimite.style.top = '1%';
+
+    container.appendChild(menoresClausulas);
+    container.appendChild(inputLimite);
+
+
+    function filtrar(){
+        let lista = document.querySelector('.player-list');
+        let listaJugadores = lista.querySelectorAll('li');
+        listaJugadores.forEach(function(jugador){
+            let numbers = jugador.querySelector('div > a > div.name > div.numbers');
+            if(numbers.innerText.includes('cláusula')){
+
+                let iClausula = numbers.innerText.indexOf(' cláusula')-10;
+                let fClausula = numbers.innerText.indexOf(' cláusula');
+
+                let clausula = numbers.innerText.substr(iClausula,(fClausula-iClausula));
+                clausula = replaceAll(clausula, ".", " ");
+                clausula = replaceAll(clausula, " ", "");
+
+                if(clausula>inputLimite.value){
+                    jugador.innerHTML = '';
+                    console.log(jugador);
+                }
+            }
         });
     }
 }
