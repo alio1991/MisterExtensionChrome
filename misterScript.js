@@ -835,10 +835,9 @@ if(window.location.href === 'https://mister.mundodeportivo.com/more#players'){
                 let clausula = numbers.innerText.substr(iClausula,(fClausula-iClausula));
                 clausula = replaceAll(clausula, ".", " ");
                 clausula = replaceAll(clausula, " ", "");
-
-                if(clausula>inputLimite.value){
+                clausula = parseInt(clausula)
+                if(clausula>parseInt(inputLimite.value)){
                     jugador.innerHTML = '';
-                    console.log(jugador);
                 }
             }
         });
