@@ -62,7 +62,7 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     jugadoresGeneral.forEach(function(jugador){
         let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
         let valorEquipo = jugador.querySelector('.played').innerText;
-        let puntos = (jugador.querySelector('.points').innerText).substr(-30,2).trim();
+        let puntos = (jugador.querySelector('.points').innerText).substr(-30,3).trim();
         let individuo = {'nombre':nombre, 'puntos': puntos, 'valor': valorEquipo};
         generales.push(individuo);
     });
@@ -71,7 +71,7 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     jugadoresJornada.forEach(function(jugador){
         let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
         let jugados = (jugador.querySelector('.played').innerText).substr(0,2).trim();
-        let puntos = (jugador.querySelector('.points').innerText).substr(-30,2).trim();
+        let puntos = (jugador.querySelector('.points').innerText).substr(-30,3).trim();
         let individuo = {'nombre':nombre, 'puntos': puntos, 'jugados': jugados};
         jornaderos.push(individuo);
     });
@@ -90,6 +90,7 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
                 }
             });
         });
+
         imprimirGeneral.push({'nombre':name.substr(3,100), 'puntos': points, 'valor': String(value.toFixed(3))+'.000'});
     });
 
