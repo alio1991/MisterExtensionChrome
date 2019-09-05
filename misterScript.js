@@ -345,10 +345,24 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
         });
 
 
+        //RECOPILA PAGOS JORNADA
+        let pagosJornada = [];
+        let jornadas = document.querySelectorAll('.card-gameweek_end > .user-list');
+        jornadas.forEach(function(jornada){
+            let transacciones = jornada.querySelectorAll('li');
+            transacciones.forEach(function(transaccion){
+                let uno = transaccion.querySelector('#feed-170340262 > ul > li > div > a > div.name');
+                // console.log(uno);
+                if(uno !== null){
+                    let nombre = uno.querySelector('h3').innerText;
+                    let pago = uno.querySelector('div').innerText;
+                    // console.log(nombre+' --> '+pago);
+                    pagosJornada.push({'nombre':nombre,'dinero':replaceAll(pago, ".", "")});
+                }
+            });
+        });
 
-        let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
-             'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK'];
-    
+
 
         let resultados = [];
 
@@ -373,6 +387,12 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
                 }
                 if(transaccion.hacia === nombre){
                     jugador.gasto = jugador.gasto-parseInt(transaccion.precio);
+                }
+            });
+            //CUENTAS DE PAGOS JORNADA
+            pagosJornada.forEach(function(transaccion){
+                if(transaccion.nombre === nombre){
+                    jugador.gasto = jugador.gasto+parseInt(transaccion.dinero);
                 }
             });
             jugador.gasto = conPuntos(String(jugador.gasto));
