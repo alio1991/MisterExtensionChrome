@@ -81,17 +81,22 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
         let name = "";
             let points = 0;
             let value = 0;
+            let jugadores = 0;
         grupo.forEach(function(miembro){
             generales.forEach(function(tio){
                 if(tio.nombre === miembro){
+                    indexValue = tio.valor.indexOf('jug.');
+
                     name = name+' - '+tio.nombre;
                     points = points+parseInt(tio.puntos);
-                    value = value+parseFloat(tio.valor.substr(0,6));
+                    value = value+parseInt(replaceAll(tio.valor.substr(indexValue+7), ".", ""));
+                    jugadores = jugadores + parseInt(replaceAll(tio.valor.substr(0,indexValue), ".", ""));
                 }
             });
         });
 
-        imprimirGeneral.push({'nombre':name.substr(3,100), 'puntos': points, 'valor': String(value.toFixed(3))+'.000'});
+        imprimirGeneral.push({'nombre':name.substr(3,100), 'puntos': points, 'valor': 
+        'jugadores: '+jugadores+' . '+conPuntos(String(value))});
     });
 
     //CREACION DE GRUPOS DE JORNADA
