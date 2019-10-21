@@ -70,7 +70,10 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     //CREACION DE LOS OBJETOS DE CADA JUGADOR PARA JORNADA
     jugadoresJornada.forEach(function(jugador){
         let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
-        let jugados = (jugador.querySelector('.played').innerText).substr(0,2).trim();
+        let jugados;
+        if(jugador.querySelector('.played') !== null){
+            jugados = (jugador.querySelector('.played').innerText).substr(0,2).trim();
+        }
         let puntos = (jugador.querySelector('.points').innerText).substr(-30,3).trim();
         let individuo = {'nombre':nombre, 'puntos': puntos, 'jugados': jugados};
         jornaderos.push(individuo);
