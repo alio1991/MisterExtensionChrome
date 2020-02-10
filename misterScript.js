@@ -62,7 +62,8 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     jugadoresGeneral.forEach(function(jugador){
         let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
         let valorEquipo = jugador.querySelector('.played').innerText;
-        let puntos = (jugador.querySelector('.points').innerText).substr(-30,3).trim();
+        let pointIndex = jugador.querySelector('.points').innerText.match(/\s/).index-3;
+        let puntos = jugador.querySelector('.points').innerText.substr(0,pointIndex).trim();
         let individuo = {'nombre':nombre, 'puntos': puntos, 'valor': valorEquipo};
         generales.push(individuo);
     });
@@ -89,7 +90,6 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
             generales.forEach(function(tio){
                 if(tio.nombre === miembro){
                     indexValue = tio.valor.indexOf('jug.');
-
                     name = name+' - '+tio.nombre;
                     points = points+parseInt(tio.puntos);
                     value = value+parseInt(replaceAll(tio.valor.substr(indexValue+7), ".", ""));
