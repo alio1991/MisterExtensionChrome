@@ -265,7 +265,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
     let bottom = document.querySelector('.slideout-panel');
     //CREACION DE BOTON BAJAR
     let top = document.querySelector('.ad-header-feed');
-    top.innerText = "";
+    // top.innerText = "";
 
     let botonBajar = document.createElement('button');
     botonBajar.innerText = '«';
@@ -667,8 +667,15 @@ function setSelect(){
 /////////////////////////////////////////////
 
 if(window.location.href === 'https://mister.mundodeportivo.com/market'){
-    let add = document.querySelector('.ad-sidebar');
+    let cont = document.querySelector('#content');
+    console.log(cont);
+    let add = document.createElement('div');
+    cont.appendChild(add);
     add.style.marginLeft = '20px';
+    add.style.position = 'absolute';
+    add.style.top = '200px';
+    add.style.right = '0';
+
     add.innerText = "";
     let jugadoresEnVenta = document.querySelector('#list-on-sale').querySelectorAll('li');
     // console.log(jugadoresEnVenta);
