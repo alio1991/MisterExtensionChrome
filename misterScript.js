@@ -187,8 +187,14 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
         }
     });
 
+    let contenido = document.querySelector('#content');
+
     //IMPRIMIR LOS JUGADORES SUPENTES
-    let ubicacion = document.querySelector('.ad-sidebar');
+    let ubicacion = document.createElement('div');
+    ubicacion.style.position = 'absolute';
+    ubicacion.style.top = '200px';
+    ubicacion.style.left = '0';
+    contenido.appendChild(ubicacion);
     ubicacion.innerText="";
     ubicacion.style.listStyle = 'none';
     ubicacion.style.marginTop = '10px';
@@ -204,11 +210,15 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
     });
 
     //IMPRIMIR LOS JUGADORES TITULARES
-    let ubicacionx = document.querySelector('.ad-header');
-    ubicacionx.innerText="";
+    let ubicacionx = document.createElement('div');
     ubicacionx.style.position = 'absolute';
-    ubicacionx.style.right = '100%';
-    ubicacionx.style.top = '-5%';
+    ubicacionx.style.top = '100px';
+    ubicacionx.style.right = '0';
+    contenido.appendChild(ubicacionx);
+    ubicacionx.innerText="";
+    // ubicacionx.style.position = 'absolute';
+    // ubicacionx.style.right = '100%';
+    // ubicacionx.style.top = '-5%';
     ubicacionx.style.zIndex = '10';
     ubicacionx.style.display = 'flex';
     ubicacionx.style.flexDirection = 'column';
@@ -240,7 +250,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
     botonAlternar.style.padding = '3px';
     botonAlternar.style.position = 'absolute';
     botonAlternar.style.left = '85%';
-    botonAlternar.style.top = '10%';
+    botonAlternar.style.top = '15%';
     botonAlternar.style.zIndex = '100';
     container.appendChild(botonAlternar);
 
@@ -711,7 +721,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/market'){
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
-if(window.location.href.includes('https://mister.mundodeportivo.com/standings#players/')){
+if(window.location.href.includes('https://mister.mundodeportivo.com/standings#players/') || window.location.href.includes('https://mister.mundodeportivo.com/team#players/')){
     let superficie = document.querySelector('body');
     
     let botonClausulas = document.createElement('button'); 
@@ -743,6 +753,9 @@ function incrustaClausulas(){
         if(valorP > valor){
             valor = valorP;
         }
+        if(valor < 666666){
+            valor = 666664;
+        }
     }
     
     let valorPorEscalon = valor/2;
@@ -766,7 +779,7 @@ function incrustaClausulas(){
     //ESCRIBIR RESULTADOS
     let escalones = document.createElement('div');
     escalones.setAttribute('class','item');
-    escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/4</div><div class="label">Escalones</div>';
+    escalones.innerHTML = '<div class="value">'+escalonesSubidos+'/5</div><div class="label">Escalones</div>';
 
     let valorSubida = document.createElement('div');
     valorSubida.setAttribute('class','item');
