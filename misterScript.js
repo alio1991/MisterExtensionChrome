@@ -28,7 +28,7 @@ function conPuntos(cadena){
 
 let todos = ['Alio', 'javi c.', 'RauL', 'Potes', 'im mvp', 'Pablo', 'Leandro', 'Alles F.C']
 let grupoA = ['Alio', 'RauL']
-let grupoB = ['Pablo', 'Leandro']
+let grupoB = ['Leandro', 'Pablo']
 let grupoC = ['Potes', 'im mvp']
 let grupoD = ['javi c.', 'Alles F.C']
 let grupos = [grupoA, grupoB, grupoC, grupoD]
