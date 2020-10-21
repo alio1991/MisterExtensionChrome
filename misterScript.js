@@ -867,8 +867,11 @@ if(window.location.href === 'https://mister.mundodeportivo.com/more#players'){
     inputLimite.style.left = '85%';
     inputLimite.style.top = '1%';
 
-    container.appendChild(menoresClausulas);
-    container.appendChild(inputLimite);
+    setTimeout(function(){ 
+        
+        container.appendChild(menoresClausulas);
+        container.appendChild(inputLimite);
+    }, 1500);
 
 
     function filtrar(){
