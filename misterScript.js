@@ -26,12 +26,11 @@ function conPuntos(cadena){
     return res;
 }
 
-let todos = ['Alio', 'javi c.', 'RauL', 'Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy',
-             'Potes', 'Roberto Argaña', 'im mvp', 'Pablo', 'lombra', 'RAGNAR LODBROK']
-let grupoA = ['Alio', 'javi c.', 'RauL']
-let grupoB = ['Dani Sanchez B', 'Ruby', 'Adrian Rodriguez Besoy']
-let grupoC = ['Potes', 'Roberto Argaña', 'im mvp']
-let grupoD = ['RAGNAR LODBROK', 'Pablo', 'lombra']
+let todos = ['Alio', 'javi c.', 'RauL', 'Potes', 'im mvp', 'Pablo', 'Leandro', 'Alles F.C']
+let grupoA = ['Alio', 'RauL']
+let grupoB = ['Pablo', 'Leandro']
+let grupoC = ['Potes', 'im mvp']
+let grupoD = ['javi c.', 'Alles F.C']
 let grupos = [grupoA, grupoB, grupoC, grupoD]
 
 
@@ -43,7 +42,7 @@ let select = document.createElement("select");
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
-if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/standings'){
+if(document.querySelector(".league-name").innerText === 'Yogures 20/21' && window.location.href === 'https://mister.mundodeportivo.com/standings'){
     let general = document.querySelector('.panel-total');
     let jugadoresGeneral = general.querySelectorAll('.user-row');
     let jornada = document.querySelector('.panel-gameweek');
@@ -60,19 +59,21 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
 
     //CREACION DE LOS OBJETOS DE CADA JUGADOR PARA GENERAL
     jugadoresGeneral.forEach(function(jugador){
-        let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
-        let valorEquipo = jugador.querySelector('.played').innerText;
-        let pointIndex = jugador.querySelector('.points').innerText.match(/\s/).index-3;
-        let puntos = jugador.querySelector('.points').innerText.substr(0,pointIndex).trim();
+        let nombre = jugador.querySelector('.info').querySelector('.name').innerText;
+        let valorEquipo = jugador.querySelector('.info').querySelector('.played').innerText;
+        // let pointIndex = jugador.querySelector('.info').querySelector('.points').innerText.match(/\s/).index-3;
+        let puntos = jugador.querySelector('.points').innerText;
+        // .substr(0,pointIndex).trim()
         let individuo = {'nombre':nombre, 'puntos': puntos, 'valor': valorEquipo};
         generales.push(individuo);
     });
 
     //CREACION DE LOS OBJETOS DE CADA JUGADOR PARA JORNADA
     jugadoresJornada.forEach(function(jugador){
-        let nombre = jugador.querySelector('.name').querySelector('h2').innerText;
+        jugador = jugador.querySelector('a');
+        let nombre = jugador.querySelector('.info').querySelector('.name').innerText;
         let jugados;
-        if(jugador.querySelector('.played') !== null){
+        if(jugador.querySelector('.info').querySelector('.played') !== null){
             jugados = (jugador.querySelector('.played').innerText).substr(0,2).trim();
         }
         let puntos = (jugador.querySelector('.points').innerText).substr(-30,3).trim();
@@ -131,12 +132,12 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
     //ELIMINACION DE LOS DATOS REALES DE LA WEB
     // let ulG = document.querySelectorAll('.user-list')[0];
     // ulG.innerText = "";
-    let ulJ = document.querySelectorAll('.user-list')[1];
-    ulJ.innerText = "";
+    let generalPosition = document.querySelectorAll('.user-list')[1];
+    generalPosition.innerText = "";
 
 
     //INSERCION DE LOS DATOS POR GRUPOS
-    let generalPosition = document.querySelector('.ad-content-standings');
+    // let generalPosition = document.querySelector('.ad-content-standings');
     generalPosition.innerText = "";
     generalPosition.setAttribute('class','panels');
     generalPosition.setAttribute('class','panels-standings');
@@ -150,7 +151,11 @@ if(document.querySelector(".league-name").innerText === 'Trapis-League' && windo
         generalPosition.innerHTML += '<li style="list-style:none; margin:10px; padding:5px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.valor+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
         count +=1;
     });
-
+    let titleJornada = document.createElement('h2');
+    titleJornada.style.marginLeft = '30px';
+    titleJornada.style.paddingTop = '20px';
+    titleJornada.innerText = 'CLASIFICACIÓN DE JORNADA';
+    generalPosition.appendChild(titleJornada);
     count = 1;
     imprimirJornada.forEach(function(elemento){
         jornada.innerHTML += '<li style="list-style:none; margin:10px; padding:5px;" class=""><div class="user-row"><a class="btn btn-sw-link user" href="" data-title="'+elemento.nombre+'"><div class="position">'+count+'º</div><div class="pic" style="background-color: #FF8A65"><span>'+elemento.nombre.substr(0,1)+'</span></div><div class="name"><h2 class="">'+elemento.nombre+'</h2><div class="played">'+elemento.jugados+'</div></div><div class="points">'+elemento.puntos+' <span>pts</span></div></a></div></li>'
@@ -241,10 +246,8 @@ if(window.location.href === 'https://mister.mundodeportivo.com/team'){
 
     function alternar(){
         let botonesJugador = document.querySelectorAll('.btn-sale');
-        console.log(botonesJugador.length);
         botonesJugador.forEach(function(boton){
             boton.click();
-            console.log(document.querySelectorAll('#btn-send'));
             let botonSecundario = document.querySelectorAll('#btn-send')[0];
             botonSecundario.click();
         });
@@ -447,7 +450,7 @@ if(window.location.href === 'https://mister.mundodeportivo.com/feed'){
         });
         add.appendChild(div);
 
-        if(document.querySelector(".league-name").innerText === 'Trapis-League' && window.location.href === 'https://mister.mundodeportivo.com/feed'){
+        if(document.querySelector(".league-name").innerText === 'Yogures 20/21' && window.location.href === 'https://mister.mundodeportivo.com/feed'){
 
             //POR GRUPOS
             let resultadoPorGrupos = [];
@@ -668,7 +671,6 @@ function setSelect(){
 
 if(window.location.href === 'https://mister.mundodeportivo.com/market'){
     let cont = document.querySelector('#content');
-    console.log(cont);
     let add = document.createElement('div');
     cont.appendChild(add);
     add.style.marginLeft = '20px';
@@ -738,12 +740,10 @@ function incrustaClausulas(){
         let iPrecio = compradoPorClausula.innerText.indexOf(' por ')+5;
         let valorP = compradoPorClausula.innerText.substr(iPrecio);
         valorP = parseInt(replaceAll(valorP, ".", ""));
-        console.log(valorP);
         if(valorP > valor){
             valor = valorP;
         }
     }
-    console.log(valor);
     
     let valorPorEscalon = valor/2;
     let costeSubidaEscalon = valor/5;
